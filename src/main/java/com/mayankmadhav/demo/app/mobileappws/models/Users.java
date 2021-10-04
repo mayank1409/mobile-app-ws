@@ -1,5 +1,7 @@
 package com.mayankmadhav.demo.app.mobileappws.models;
 
+import java.util.List;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -8,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -45,8 +48,6 @@ public class Users {
 
 	private String encPassword;
 
-	private String userId;
-
 	private String mobile;
 
 	@OneToOne()
@@ -57,4 +58,6 @@ public class Users {
 	@JoinColumn(name = "user_profile_id")
 	private UserProfile userProfile;
 
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "user")
+	private List<Address> address;
 }

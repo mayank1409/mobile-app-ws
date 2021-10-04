@@ -17,6 +17,11 @@ public class RestUtils {
 		RestResponse<T> response = new RestResponse<T>(data, MessageConstants.CREATED_MESSAGE, HttpStatus.OK);
 		return new ResponseEntity<RestResponse<T>>(response, HttpStatus.OK);
 	}
+	
+	public static <T> ResponseEntity<RestResponse<T>> handleResponse(T data, String message) {
+		RestResponse<T> response = new RestResponse<T>(data, message, HttpStatus.OK);
+		return new ResponseEntity<RestResponse<T>>(response, HttpStatus.OK);
+	}
 
 	public static <T> ResponseEntity<RestResponse<T>> handleGetResponse(T data) {
 		RestResponse<T> response = new RestResponse<T>(data, MessageConstants.GET_MESSAGE, HttpStatus.OK);

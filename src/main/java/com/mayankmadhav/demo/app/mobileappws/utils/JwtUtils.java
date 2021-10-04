@@ -49,7 +49,7 @@ public class JwtUtils {
 
 	private String createToken(Map<String, Object> claims, String subject) {
 
-		LocalDateTime localDateTime = LocalDateTime.now().plusMinutes(1);
+		LocalDateTime localDateTime = LocalDateTime.now().plusMinutes(30);
 		Date date = Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant());
 
 		return Jwts.builder().setClaims(claims).setSubject(subject).setIssuedAt(new Date(System.currentTimeMillis()))

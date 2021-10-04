@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import com.mayankmadhav.demo.app.mobileappws.constants.enums.Roles;
 import com.mayankmadhav.demo.app.mobileappws.controller.dtos.RoleDTO;
 import com.mayankmadhav.demo.app.mobileappws.exceptions.EntityAlreadyExistsException;
+import com.mayankmadhav.demo.app.mobileappws.exceptions.EntityNotFoundException;
 import com.mayankmadhav.demo.app.mobileappws.models.Role;
 import com.mayankmadhav.demo.app.mobileappws.repository.IRoleRepository;
 import com.mayankmadhav.demo.app.mobileappws.service.AbstractService;
@@ -42,6 +43,9 @@ public class RoleServiceImpl extends AbstractService<Role, Long> implements IRol
 
 	@Override
 	public Role findByName(String role) {
+		if (!Roles.isValid(role)) {
+			throw new EntityNotFoundException("Invalid Role");
+		}
 		return roleRepository.findByName(Roles.valueOf(role));
 	}
 

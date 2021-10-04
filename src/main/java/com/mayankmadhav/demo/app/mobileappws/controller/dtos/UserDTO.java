@@ -26,8 +26,6 @@ public class UserDTO {
 
 	private String password;
 
-	private String userId;
-
 	@NotBlank(message = "mobile can't be blank")
 	private String mobile;
 

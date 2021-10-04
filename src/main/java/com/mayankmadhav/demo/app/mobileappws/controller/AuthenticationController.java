@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.mayankmadhav.demo.app.mobileappws.constants.MessageConstants;
 import com.mayankmadhav.demo.app.mobileappws.controller.dtos.LoginDTO;
 import com.mayankmadhav.demo.app.mobileappws.controller.dtos.LoginResponseDTO;
 import com.mayankmadhav.demo.app.mobileappws.controller.dtos.UserDTO;
@@ -41,7 +42,8 @@ public class AuthenticationController {
 
 	@PostMapping("/signup")
 	public ResponseEntity<RestResponse<UserDTO>> saveUser(@Valid @RequestBody UserDTO userDto) {
-		return RestUtils.handleResponse(userTransformer.toDTO(userDetailsService.signUp(userDto)));
+		return RestUtils.handleResponse(userTransformer.toDTO(userDetailsService.signUp(userDto)),
+				MessageConstants.CREATED_MESSAGE);
 	}
 
 	@PostMapping("/login")

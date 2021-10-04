@@ -3,8 +3,6 @@ package com.mayankmadhav.demo.app.mobileappws.service;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -12,7 +10,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,7 +21,6 @@ import com.mayankmadhav.demo.app.mobileappws.models.Users;
 import com.mayankmadhav.demo.app.mobileappws.repository.IUserRepository;
 import com.mayankmadhav.demo.app.mobileappws.service.business.IUserService;
 import com.mayankmadhav.demo.app.mobileappws.transformer.impl.UserTransfomer;
-import com.mayankmadhav.demo.app.mobileappws.utils.RestUtils;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -42,7 +39,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 	private IUserService userService;
 
 	@Autowired
-	private PasswordEncoder bcryptPasswordEncoder;
+	private BCryptPasswordEncoder bcryptPasswordEncoder;
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -58,25 +55,22 @@ public class CustomUserDetailsService implements UserDetailsService {
 		return new User(user.getEmail(), user.getEncPassword(), authorities);
 	}
 
-	public Users signUp(@Valid UserDTO userDto) {
+	public Users signUp(UserDTO userDto) {
 
-		Users user = userRepository.findByEmail(userDto.getEmail());
+		Users user = userService.findByUsername(userDto.getEmail());
 		if (user != null) {
-			log.warn("user already exists with email {}", userDto.getEmail());
-			throw new EntityAlreadyExistsException("User already exists with email");
+			throw new EntityAlreadyExistsException("You are already registered, Please login!");
 		}
+
 		user = userRepository.findByMobile(userDto.getMobile());
 		if (user != null) {
-			log.warn("user already exists with same mobile {}", userDto.getMobile());
-			throw new EntityAlreadyExistsException("User already exists with same mobile");
+			throw new EntityAlreadyExistsException("You are already registered with this mobile number!");
 		}
 		user = userTransformer.fromDTO(userDto);
 		user.setEncPassword(bcryptPasswordEncoder.encode(userDto.getPassword()));
-		user.setUserId(RestUtils.generateUserId());
-		Users savedUser = userService.save(user);
-
+		user = userService.save(user);
 		log.info("user saved successfully");
-		return savedUser;
+		return user;
 	}
 
 }

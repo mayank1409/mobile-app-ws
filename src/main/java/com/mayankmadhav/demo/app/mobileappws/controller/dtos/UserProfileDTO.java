@@ -1,8 +1,11 @@
 package com.mayankmadhav.demo.app.mobileappws.controller.dtos;
 
 import java.time.LocalDate;
+import java.util.List;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 
@@ -12,11 +15,15 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Builder
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class UserProfileDTO {
 
 	private String firstName;
@@ -42,5 +49,10 @@ public class UserProfileDTO {
 
 	@NotBlank(message = "nationality can't be blank")
 	private String nationality;
+	
+	@NotEmpty(message = "address is required")
+	@Valid
+	private List<AddressDTO> address;
 
+	
 }

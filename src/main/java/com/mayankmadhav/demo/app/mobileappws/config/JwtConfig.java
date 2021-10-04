@@ -10,7 +10,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import com.mayankmadhav.demo.app.mobileappws.service.CustomUserDetailsService;
@@ -35,7 +34,7 @@ public class JwtConfig extends WebSecurityConfigurerAdapter {
 	private SimpleAccessDeniedHandler accessDeniedHandler;
 
 	@Bean
-	public PasswordEncoder getPasswordEncoder() {
+	public BCryptPasswordEncoder getPasswordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
 
@@ -46,7 +45,7 @@ public class JwtConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		auth.userDetailsService(userDetailsService).passwordEncoder(getPasswordEncoder());
+		auth.userDetailsService(userDetailsService);
 	}
 
 	@Override

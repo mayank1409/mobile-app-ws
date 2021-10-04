@@ -3,6 +3,7 @@ package com.mayankmadhav.demo.app.mobileappws.models;
 import java.time.LocalDate;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -36,8 +37,10 @@ public class UserProfile {
 
 	private LocalDate dateOfBirth;
 
+	@Column(updatable = false)
 	private String fatherName;
 
+	@Column(updatable = false)
 	private String motherName;
 
 	private String nationality;

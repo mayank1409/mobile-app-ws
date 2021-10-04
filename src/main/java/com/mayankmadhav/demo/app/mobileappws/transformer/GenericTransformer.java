@@ -13,6 +13,22 @@ public interface GenericTransformer<ENTITY, DTO> {
 
 	public DTO toDTO(ENTITY entity);
 
+	default List<ENTITY> fromListDTO(List<DTO> dtos) {
+		List<ENTITY> entities = new ArrayList<ENTITY>();
+		for (DTO dto : dtos) {
+			entities.add(fromDTO(dto));
+		}
+		return entities;
+	}
+
+	default List<DTO> toListDTO(List<ENTITY> entites) {
+		List<DTO> dtos = new ArrayList<DTO>();
+		for (ENTITY entity : entites) {
+			dtos.add(toDTO(entity));
+		}
+		return dtos;
+	}
+
 	public PageDTO<DTO> toPageDto(Page<ENTITY> page);
 
 	default List<DTO> setContent(Page<ENTITY> page) {

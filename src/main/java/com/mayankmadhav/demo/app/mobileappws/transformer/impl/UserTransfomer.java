@@ -7,8 +7,6 @@ import org.springframework.stereotype.Component;
 import com.mayankmadhav.demo.app.mobileappws.constants.enums.Roles;
 import com.mayankmadhav.demo.app.mobileappws.controller.dtos.PageDTO;
 import com.mayankmadhav.demo.app.mobileappws.controller.dtos.UserDTO;
-import com.mayankmadhav.demo.app.mobileappws.controller.dtos.UserProfileDTO;
-import com.mayankmadhav.demo.app.mobileappws.models.UserProfile;
 import com.mayankmadhav.demo.app.mobileappws.models.Users;
 import com.mayankmadhav.demo.app.mobileappws.service.business.IRoleService;
 import com.mayankmadhav.demo.app.mobileappws.transformer.GenericTransformer;
@@ -29,7 +27,7 @@ public class UserTransfomer implements GenericTransformer<Users, UserDTO> {
 	@Override
 	public UserDTO toDTO(Users userEntity) {
 		return UserDTO.builder().firstName(userEntity.getFirstName()).lastName(userEntity.getLastName())
-				.email(userEntity.getEmail()).mobile(userEntity.getMobile()).userId(userEntity.getUserId()).build();
+				.email(userEntity.getEmail()).mobile(userEntity.getMobile()).build();
 	}
 
 	@Override
@@ -41,19 +39,6 @@ public class UserTransfomer implements GenericTransformer<Users, UserDTO> {
 		pageUserDto.setTotalPages(page.getTotalPages());
 		pageUserDto.setContent(setContent(page));
 		return pageUserDto;
-	}
-
-	public UserProfileDTO toUserProfile(Users entity) {
-		UserProfileDTO userProfileDTO = UserProfileDTO.builder().firstName(entity.getFirstName()).lastame(entity.getLastName())
-				.mobile(entity.getMobile()).email(entity.getEmail()).build();
-		UserProfile userProfile = entity.getUserProfile();
-		if (userProfile != null) {
-			userProfileDTO.setDateOfBirth(userProfile.getDateOfBirth());
-			userProfileDTO.setFatherName(userProfile.getFatherName());
-			userProfileDTO.setMotherName(userProfile.getMotherName());
-			userProfileDTO.setNationality(userProfile.getNationality());
-		}
-		return userProfileDTO;
 	}
 
 }
