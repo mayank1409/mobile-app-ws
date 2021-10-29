@@ -1,51 +1,31 @@
 package com.mayankmadhav.demo.app.mobileappws.models;
 
+import lombok.*;
+
+import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.List;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
-
-@Entity
-@Table(name = "user_profile")
+@Embeddable
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString(exclude = "user")
+@ToString
 @Data
 public class UserProfile {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+    private LocalDate dateOfBirth;
 
-	private long createDate;
+    private String fatherName;
 
-	private long updateDate;
+    private String motherName;
 
-	private LocalDate dateOfBirth;
+    private String nationality;
 
-	@Column(updatable = false)
-	private String fatherName;
+    @CollectionTable(name = "user_addresses", joinColumns = @JoinColumn(name = "user_id"))
+    @ElementCollection
+    private List<Address> address;
 
-	@Column(updatable = false)
-	private String motherName;
-
-	private String nationality;
-	
-	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "userProfile")
-	private Users user;
 
 }
