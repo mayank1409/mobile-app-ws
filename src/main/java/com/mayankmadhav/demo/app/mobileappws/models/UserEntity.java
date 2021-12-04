@@ -1,8 +1,12 @@
 package com.mayankmadhav.demo.app.mobileappws.models;
 
 import lombok.*;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Data
 @AllArgsConstructor
@@ -12,15 +16,18 @@ import javax.persistence.*;
 @EqualsAndHashCode(of = "id")
 @Entity
 @Table(name = "users")
+@EntityListeners(AuditingEntityListener.class)
 public class UserEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private long createDate;
+    @CreatedDate
+    private Date createdDate;
 
-    private long updateDate;
+    @LastModifiedDate
+    private Date updatedDate;
 
     private String firstName;
 

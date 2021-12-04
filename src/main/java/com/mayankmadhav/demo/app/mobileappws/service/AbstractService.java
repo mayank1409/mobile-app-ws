@@ -16,8 +16,7 @@ public abstract class AbstractService<T, ID> implements IGenericService<T, ID> {
     }
 
     @Override
-    public T update(T t, ID id) {
-        t = get(id);
+    public T update(T t) {
         return repository().save(t);
     }
 
@@ -25,7 +24,7 @@ public abstract class AbstractService<T, ID> implements IGenericService<T, ID> {
     public T get(ID id) {
         Optional<T> t = repository().findById(id);
         if (t.isEmpty()) {
-            throw new EntityNotFoundException("entity not found");
+            throw new EntityNotFoundException("Entity not found");
         }
         return t.get();
     }

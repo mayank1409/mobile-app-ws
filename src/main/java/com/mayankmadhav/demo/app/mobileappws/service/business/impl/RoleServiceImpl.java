@@ -28,24 +28,8 @@ public class RoleServiceImpl extends AbstractService<Role, Long> implements IRol
     }
 
     @Override
-    public Role addRole(RoleDTO roleDTO) {
-        if (!Roles.isValid(roleDTO.getName())) {
-            throw new EntityAlreadyExistsException("BAD_REQUEST");
-        }
-        Role role = roleRepository.findByName(Roles.valueOf(roleDTO.getName()));
-        role = save(roleTransformer.fromDTO(roleDTO));
-        if (role != null) {
-            throw new EntityAlreadyExistsException();
-        }
-        return role;
-    }
-
-    @Override
     public Role findByName(String role) {
-        if (!Roles.isValid(role)) {
-            throw new EntityNotFoundException("Invalid Role");
-        }
-        return roleRepository.findByName(Roles.valueOf(role));
+        Role roleByName = roleRepository.findByName(Roles.valueOf(role));
+        return roleByName;
     }
-
 }

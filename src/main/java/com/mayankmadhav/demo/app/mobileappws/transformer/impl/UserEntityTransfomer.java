@@ -28,11 +28,10 @@ public class UserEntityTransfomer implements GenericTransformer<UserEntity, User
         UserEntity user = userService.findByUsername(dto.getEmail());
 
         if (user == null) {
-            user = UserEntity.builder().firstName(dto.getFirstName()).createDate(System.currentTimeMillis())
+            user = UserEntity.builder().firstName(dto.getFirstName())
                     .lastName(dto.getLastName()).mobile(dto.getMobile())
                     .role(roleService.findByName(Roles.USER.toString())).email(dto.getEmail()).encPassword(bcryptPasswordEncoder.encode(dto.getPassword())).build();
         } else {
-            user.setUpdateDate(System.currentTimeMillis());
             user.setUserProfile(dto.getUserProfile());
             user.getUserProfile().setAddress(dto.getUserProfile().getAddress());
         }

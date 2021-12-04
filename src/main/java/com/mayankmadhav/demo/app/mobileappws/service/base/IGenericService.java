@@ -6,7 +6,7 @@ public interface IGenericService<T, ID> {
 
     public T save(T t);
 
-    public T update(T t, ID id);
+    public T update(T t);
 
     public T get(ID id);
 

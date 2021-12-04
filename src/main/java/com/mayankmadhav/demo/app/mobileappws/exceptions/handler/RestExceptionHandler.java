@@ -7,6 +7,7 @@ import com.mayankmadhav.demo.app.mobileappws.utils.RestResponse;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -14,6 +15,8 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @RestControllerAdvice
 public class RestExceptionHandler extends ResponseEntityExceptionHandler {
@@ -33,8 +36,9 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
     public ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers,
                                                                HttpStatus status, WebRequest request) {
-        String message = ex.getBindingResult().getFieldErrors().get(0).getDefaultMessage();
-        RestResponse<Object> response = new RestResponse<>(message, HttpStatus.BAD_REQUEST);
+        Map<String, String> errorMap = ex.getBindingResult().getAllErrors().stream()
+                .collect(Collectors.toMap(error -> ((FieldError) error).getField(), error -> ((FieldError) error).getDefaultMessage()));
+        RestResponse<Object> response = new RestResponse<Object>(errorMap, HttpStatus.BAD_REQUEST);
         return new ResponseEntity<Object>(response, HttpStatus.BAD_REQUEST);
     }
 
